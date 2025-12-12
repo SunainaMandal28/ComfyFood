@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Restaurant{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+  <header>
+    <nav class="navbar">
+      <a href="/" class="logo"><strong>My<span style="color:#ffe6d8">ComfyFood</span></strong></a>
+      <a href="/">Home</a>
+      <a href="{% url 'menu' %}">Menu</a>
+      <a href="{% url 'reservation' %}">Reservation</a>
+      <a href="{% url 'contact' %}">Contact</a>
+      <a href="{% url 'about' %}">About</a>
+      <a href="{% url 'cart' %}">Cart</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Django messages -->
+    {% if messages %}
+      <div style="width:90%;max-width:900px;margin:20px auto;">
+        {% for msg in messages %}
+          <div style="padding:10px 14px;border-radius:8px;margin-bottom:10px;background:#e7f7ed;color:#0b6b3a;">
+            {{ msg }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- page content -->
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div style="max-width:1100px;margin:0 auto;padding:20px;">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;color:#ddd;">
+        <div style="min-width:200px;">
+          <h3 style="color:#fff;margin-bottom:6px;">ComfyFood</h3>
+          <p style="color:#ddd;margin:0;font-size:14px;">Delicious food served with love. Open daily from 10am — 11pm.</p>
+        </div>
+
+        <div style="min-width:200px;">
+          <h4 style="color:#fff;margin-bottom:6px;">Contact</h4>
+          <p style="margin:0;font-size:14px;">Kathmandu, Nepal<br/>Phone: +977 9809876432</p>
+        </div>
+
+        <div style="min-width:200px;">
+          <h4 style="color:#fff;margin-bottom:6px;">Quick Links</h4>
+          <p style="margin:0;font-size:14px;">
+            <a href="/" style="color:#ffd1c3;text-decoration:none;">Home</a> ·
+            <a href="{% url 'menu' %}" style="color:#ffd1c3;text-decoration:none;">Menu</a>
+          </p>
+        </div>
+      </div>
+      <p style="color:#aaa;margin-top:18px;font-size:13px;">© {{ now|date:"Y" }} ComfyFood — All rights reserved</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Reservation - ComfyFood{% endblock %}
+{% block content %}
+
+<section style="max-width:1000px;margin:30px auto;">
+  <h1>Reserve a Table</h1>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div style="background:#e7f7ed;padding:10px;border-radius:8px;margin-bottom:12px;color:#0b6b3a;">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div style="display:flex;gap:24px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:320px;">
+      <form method="post" action="{% url 'reservation' %}">
+        {% csrf_token %}
+        <label>Your name</label>
+        <input name="name" required>
+
+        <label>Email</label>
+        <input name="email" type="email" required>
+
+        <label>Phone</label>
+        <input name="phone" required>
+
+        <label>Date</label>
+        <input name="date" type="date" required>
+
+        <label>Time</label>
+        <input name="time" type="time" required>
+
+        <label>Party size</label>
+        <input name="party_size" type="number" min="1" value="2" required>
+
+        <label>Notes</label>
+        <textarea name="notes"></textarea>
+
+        <button class="btn" type="submit">Request Reservation</button>
+      </form>
+    </div>
+
+    <div style="width:360px;">
+      <div style="background:#fff;padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);">
+        <h3>Recent Reservations</h3>
+        {% if reservations %}
+          <ul>
+            {% for r in reservations %}
+              <li style="margin-bottom:8px;">
+                {{ r.date }} at {{ r.time }} — {{ r.name }}
+                {% if r.confirmed %}
+                  <span style="color:green;">Confirmed ✔</span>
+                {% else %}
+                  <span style="color:orange;">Pending</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No recent reservations.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
